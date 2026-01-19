@@ -1,0 +1,54 @@
+{
+  "name": "audio-files",
+  "title": "Audio Files",
+  "description": "Browse and audition audio files from a folder with instant playback and favorites.",
+  "icon": "extension-icon.png",
+  "author": "jackvaughan",
+  "version": "0.1.0",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "browse-audio-files",
+      "title": "Audio Files",
+      "description": "Browse and preview audio files in a list",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "audioFolder",
+      "title": "Audio Folder",
+      "description": "The folder containing your audio files (subfolders become categories).",
+      "type": "directory",
+      "required": true
+    },
+    {
+      "name": "aeBinaryPath",
+      "title": "After Effects Binary",
+      "description": "Full path to the AE executable (used with -r). Default: /Applications/Adobe After Effects 2025/Adobe After Effects 2025.app/Contents/MacOS/After Effects",
+      "type": "textfield",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.96.0",
+    "@raycast/utils": "^1.19.1",
+    "react": "^18.0.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^8.0.0",
+    "prettier": "^2.0.0",
+    "typescript": "^4.0.0"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "lint": "ray lint"
+  }
+}
