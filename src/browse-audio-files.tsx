@@ -59,11 +59,6 @@ export default function Command() {
     } catch {}
     return null;
   }
-  // Repo fallback (Git-synced) if writing to audioFolder fails or is blocked
-  function getRepoFallbackFavoritesFilePath(): string {
-    const home = process.env.HOME || "~";
-    return path.join(home, "Documents", "GitHub", "raycast", "resources", "sync", "audio-files-favorites.json");
-  }
   function readFavoritesFile(): string[] | null {
     try {
       const fp = getFavoritesFilePath();
@@ -79,13 +74,6 @@ export default function Command() {
         const arr = JSON.parse(content);
         return Array.isArray(arr) ? arr.filter((v: unknown) => typeof v === "string") : null;
       }
-      // Fallback to repo-synced file if present
-      const repoFp = getRepoFallbackFavoritesFilePath();
-      if (fs.existsSync(repoFp)) {
-        const content = fs.readFileSync(repoFp, "utf8");
-        const arr = JSON.parse(content);
-        return Array.isArray(arr) ? arr.filter((v: unknown) => typeof v === "string") : null;
-      }
     } catch {}
     return null;
   }
@@ -93,16 +81,7 @@ export default function Command() {
     try {
       const fp = getFavoritesFilePath();
       if (!fp) return;
-      try {
-        fs.writeFileSync(fp, JSON.stringify(list, null, 2), "utf8");
-      } catch (e) {
-        // Primary failed (e.g., permissions). Write to repo fallback instead
-        try {
-          const repoFp = getRepoFallbackFavoritesFilePath();
-          fs.mkdirSync(path.dirname(repoFp), { recursive: true });
-          fs.writeFileSync(repoFp, JSON.stringify(list, null, 2), "utf8");
-        } catch {}
-      }
+      fs.writeFileSync(fp, JSON.stringify(list, null, 2), "utf8");
       // Clean up legacy hidden file if present
       try {
         const legacy = getLegacyHiddenFavoritesFilePath();
